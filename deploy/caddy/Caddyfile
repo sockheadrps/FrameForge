@@ -1,0 +1,14 @@
+# Replace frameforge.lan with the private DNS name used by your Windows machine.
+# `tls internal` keeps certificate issuance private; install Caddy's local root CA
+# on the Windows client before relying on this configuration.
+frameforge.lan {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:3000
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+	}
+}

@@ -1,0 +1,25 @@
+[Unit]
+Description=FrameForge production organizer
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=frameforge
+Group=frameforge
+WorkingDirectory=/opt/frameforge/current
+EnvironmentFile=/etc/frameforge/frameforge.env
+ExecStart=/usr/bin/node build
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+
+# The application source is read-only; persistent writes stay in /var/lib/frameforge.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/frameforge
+
+[Install]
+WantedBy=multi-user.target

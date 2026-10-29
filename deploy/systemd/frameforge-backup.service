@@ -1,0 +1,8 @@
+[Unit]
+Description=Back up FrameForge database and media
+
+[Service]
+Type=oneshot
+ExecStart=/opt/frameforge/current/deploy/scripts/backup.sh /var/backups/frameforge
+User=root
+Group=root
