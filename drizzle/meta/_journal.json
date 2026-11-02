@@ -8,6 +8,62 @@
 			"when": 1793246212518,
 			"tag": "0000_early_alex_power",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "6",
+			"when": 1793254514095,
+			"tag": "0001_magenta_jubilee",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1793254997134,
+			"tag": "0002_fancy_black_crow",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "6",
+			"when": 1793255246365,
+			"tag": "0003_woozy_proemial_gods",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "6",
+			"when": 1793255609887,
+			"tag": "0004_lying_wild_child",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "6",
+			"when": 1793255781827,
+			"tag": "0005_large_fallen_one",
+			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "6",
+			"when": 1793256147183,
+			"tag": "0006_shocking_black_queen",
+			"breakpoints": true
+		},
+		{
+			"idx": 7,
+			"version": "6",
+			"when": 1793586515470,
+			"tag": "0007_careful_la_nuit",
+			"breakpoints": true
+		},
+		{
+			"idx": 8,
+			"version": "6",
+			"when": 1793586600406,
+			"tag": "0008_chemical_firelord",
+			"breakpoints": true
 		}
 	]
 }

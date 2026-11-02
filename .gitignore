@@ -19,9 +19,9 @@ build/
 
 # FrameForge local state and managed media
 .data/
-data/
-media/
-uploads/
+/data/
+/media/
+/uploads/
 *.db
 *.db-journal
 *.db-shm

@@ -50,8 +50,10 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
+		"@xyflow/svelte": "^1.7.0",
 		"better-sqlite3": "^13.0.3",
 		"drizzle-orm": "^0.45.4",
+		"sharp": "^0.35.5",
 		"zod": "^4.6.7"
 	}
 }

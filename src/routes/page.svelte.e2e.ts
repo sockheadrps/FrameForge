@@ -42,3 +42,11 @@ test('creates and persists a project', async ({ page }) => {
 	await page.goto('/projects');
 	await expect(page.getByRole('link', { name: new RegExp(title) })).toBeVisible();
 });
+
+test('primary navigation is keyboard accessible', async ({ page }) => {
+	await page.goto('/');
+	await page.keyboard.press('Tab');
+	const focused = page.locator(':focus');
+	await expect(focused).toBeVisible();
+	await expect(focused).toHaveAttribute('href');
+});

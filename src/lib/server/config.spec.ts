@@ -7,8 +7,16 @@ describe('readConfig', () => {
 			dataDir: '/srv/frameforge',
 			databasePath: '/srv/frameforge/frameforge.db',
 			mediaRoot: '/srv/frameforge/media',
+			linkedMediaRoots: [],
 			uploadLimitMb: 1024
 		});
+	});
+
+	it('parses administrator-approved linked media roots', () => {
+		expect(
+			readConfig({ FRAMEFORGE_LINKED_MEDIA_ROOTS: '/mnt/data/comfy/output;/mnt/archive/renders' })
+				.linkedMediaRoots
+		).toEqual(['/mnt/data/comfy/output', '/mnt/archive/renders']);
 	});
 	it('rejects invalid upload limits', () => {
 		expect(() => readConfig({ FRAMEFORGE_UPLOAD_LIMIT_MB: '0' })).toThrow(

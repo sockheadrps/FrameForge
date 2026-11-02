@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `assets_project_content_hash_idx` ON `assets` (`project_id`,`content_hash`);

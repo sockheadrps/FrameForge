@@ -78,7 +78,7 @@ Keep the database and uploaded media in persistent Ubuntu directories outside th
 
 Support PNG, JPEG, WebP, MP4, and WebM initially. Validate file signatures, types, sizes, and paths. Extract image dimensions, video duration, and poster frames; FFmpeg/ffprobe may be installed as server utilities. Generate thumbnails asynchronously for larger files.
 
-Later, add **linked media** for files already accessible to the Ubuntu server. Restrict links to explicitly configured directories, resolve canonical paths, block traversal, and indicate missing or modified files. A Windows browser path is not automatically readable by the Ubuntu server; browser uploads are the reliable cross-device option.
+Support **linked media** for files already accessible to the Ubuntu server, beginning with the administrator-approved ComfyUI output root `/mnt/data/comfy/output`. Preserve its subfolder hierarchy and provide read-only folder navigation. Restrict links to explicitly configured directories, resolve canonical paths, block traversal and symlink escapes, and indicate missing or modified files. A Windows-hosted Node process cannot automatically read a Linux `/mnt/...` path; browser uploads or an explicitly configured Windows-accessible equivalent remain the cross-device fallback.
 
 Use content hashes for duplicate detection. Never expose arbitrary filesystem paths through media-serving routes. Deleting a record must not remove a file still referenced elsewhere.
 
@@ -180,6 +180,8 @@ Each phase ends with a working, testable milestone. Complete the phases in order
 
 ### Phase 3 — Private deployment baseline
 
+> Ubuntu runtime verification is intentionally deferred until feature development is complete. Development continues on Windows with environment-specific media roots and filesystem tests.
+
 - [x] Set up production Node startup with systemd or containerization.
 - [x] Bind FrameForge to localhost or the trusted LAN/VPN interface.
 - [x] Configure an HTTPS reverse proxy when accessing it across devices.
@@ -191,93 +193,94 @@ Each phase ends with a working, testable milestone. Complete the phases in order
 
 ### Phase 4 — Media library
 
-- [ ] Create Asset schema and managed filesystem storage service.
-- [ ] Implement image/video upload with validation and limits.
-- [ ] Extract metadata and generate thumbnails/poster frames.
-- [ ] Build media grid, preview, detail inspector, and tags.
-- [ ] Link assets to shots and other project records.
-- [ ] Handle duplicate uploads and missing files.
-- [ ] Add allowlisted linked-media support only after managed uploads work.
+- [x] Add secure, read-only navigation for the configured `/mnt/data/comfy/output` root and its subfolders.
+- [x] Create Asset schema and managed filesystem storage service.
+- [x] Implement image/video upload with validation and limits.
+- [x] Extract metadata and generate thumbnails/poster frames.
+- [x] Build media grid, preview, detail inspector, and tags.
+- [x] Link assets to shots and other project records.
+- [x] Handle duplicate uploads and missing files.
+- [x] Import or link selected ComfyUI files into canonical Asset records without duplicating source media.
 
 **Done when:** ComfyUI-generated images and videos can be imported, previewed, and reused.
 
 ### Phase 5 — Prompt management
 
-- [ ] Create Prompt and immutable PromptRevision schemas.
-- [ ] Build prompt editor, duplicate, rename, and copy actions.
-- [ ] Implement revision history and comparison.
-- [ ] Attach prompt revisions to shots.
-- [ ] Add optional model/workflow notes without ComfyUI API coupling.
-- [ ] Test revision integrity after edits.
+- [x] Create Prompt and immutable PromptRevision schemas.
+- [x] Build prompt editor, duplicate, rename, and copy actions.
+- [x] Implement revision history and comparison.
+- [x] Attach prompt revisions to shots.
+- [x] Add optional model/workflow notes without ComfyUI API coupling.
+- [x] Test revision integrity after edits.
 
 **Done when:** A shot can point to an exact historical prompt revision.
 
 ### Phase 6 — Takes, approval, and provenance
 
-- [ ] Create Take and TakeInput schemas.
-- [ ] Build a workflow to attach imported media as a shot take.
-- [ ] Record exact prompt revision and ordered input references.
-- [ ] Add optional model, seed, resolution, and workflow metadata.
-- [ ] Implement candidate/approved/rejected states and review notes.
-- [ ] Enforce one primary approved take per shot.
-- [ ] Build take comparison and lineage detail panels.
+- [x] Create Take and TakeInput schemas.
+- [x] Build a workflow to attach imported media as a shot take.
+- [x] Record exact prompt revision and ordered input references.
+- [x] Add optional model, seed, resolution, and workflow metadata.
+- [x] Implement candidate/approved/rejected states and review notes.
+- [x] Enforce one primary approved take per shot.
+- [x] Build take comparison and lineage detail panels.
 
 **Done when:** A user can identify every documented input to a generated clip and approve a preferred result.
 
 ### Phase 7 — Storyboard
 
-- [ ] Build reorderable shot cards with thumbnails and durations.
-- [ ] Show approved media or clear placeholders when missing.
-- [ ] Add shot-status and missing-asset filters.
-- [ ] Open the shared shot inspector from storyboard cards.
-- [ ] Calculate scene runtime from target or approved clip durations.
-- [ ] Verify storyboard ordering uses canonical shot order.
+- [x] Build reorderable shot cards with thumbnails and durations.
+- [x] Show approved media or clear placeholders when missing.
+- [x] Add shot-status and missing-asset filters.
+- [x] Open the shared shot inspector from storyboard cards.
+- [x] Calculate scene runtime from target or approved clip durations.
+- [x] Verify storyboard ordering uses canonical shot order.
 
 **Done when:** An episode can be reviewed visually without opening each file separately.
 
 ### Phase 8 — Infinite canvas
 
-- [ ] Integrate Svelte Flow.
-- [ ] Implement Asset, Prompt, Shot, Take, Note, and Group nodes.
-- [ ] Add typed edges and connection validation.
-- [ ] Persist node positions, connections, groups, and viewport.
-- [ ] Allow dragging existing assets and shots onto the canvas.
-- [ ] Open the shared inspector when selecting a node.
-- [ ] Add project-level and scene-specific canvases.
-- [ ] Ensure deleting a visual node never deletes the canonical record.
+- [x] Integrate Svelte Flow.
+- [x] Implement Asset, Prompt, Shot, Take, Note, and Group nodes.
+- [x] Add typed edges and connection validation.
+- [x] Persist node positions, connections, groups, and viewport.
+- [x] Allow dragging existing assets and shots onto the canvas.
+- [x] Open the shared inspector when selecting a node.
+- [x] Add project-level and scene-specific canvases.
+- [x] Ensure deleting a visual node never deletes the canonical record.
 
 **Done when:** Source images, prompts, shots, and outputs can be connected visually and reopened intact.
 
 ### Phase 9 — Character and world continuity
 
-- [ ] Create Character, Location, and Prop entities.
-- [ ] Add versioned reference images and canonical selections.
-- [ ] Link these entities to scenes, shots, and take inputs.
-- [ ] Show which reference version each take used.
-- [ ] Add non-destructive newer-reference indicators.
-- [ ] Add character-arc notes and turning points.
+- [x] Create Character, Location, and Prop entities.
+- [x] Add versioned reference images and canonical selections.
+- [x] Link these entities to scenes, shots, and take inputs.
+- [x] Show which reference version each take used.
+- [x] Add non-destructive newer-reference indicators.
+- [x] Add character-arc notes and turning points.
 
 **Done when:** Recurring designs and narrative changes are traceable across episodes.
 
 ### Phase 10 — Review sequence
 
-- [ ] Create ordered scene playback using approved takes.
-- [ ] Add individual clip playback, scrubbing, and next/previous navigation.
-- [ ] Display target versus actual durations.
-- [ ] Add non-destructive in/out review markers if needed.
-- [ ] Consider optional FFmpeg sequence export after playback is stable.
+- [x] Create ordered scene playback using approved takes.
+- [x] Add individual clip playback, scrubbing, and next/previous navigation.
+- [x] Display target versus actual durations.
+- [x] Add non-destructive in/out review markers if needed.
+- [x] Consider optional FFmpeg sequence export after playback is stable. (Deferred: mixed source codecs and dimensions need an explicit transcode policy.)
 
 **Done when:** A creator can review a complete scene in story order.
 
 ### Phase 11 — Search, portability, and release hardening
 
-- [ ] Implement project-wide search and filtering.
-- [ ] Create validated project export/import with assets and manifest.
-- [ ] Add collision handling and missing-linked-media warnings.
-- [ ] Improve performance for large media libraries and canvases.
-- [ ] Complete keyboard navigation and accessibility review.
-- [ ] Add logs, diagnostics, deployment docs, and migration instructions.
-- [ ] Rehearse backup, restore, and upgrade paths.
+- [x] Implement project-wide search and filtering.
+- [x] Create validated project export/import with assets and manifest.
+- [x] Add collision handling and missing-linked-media warnings.
+- [x] Improve performance for large media libraries and canvases.
+- [x] Complete keyboard navigation and accessibility review.
+- [x] Add logs, diagnostics, deployment docs, and migration instructions.
+- [x] Rehearse backup, restore, and upgrade paths locally; repeat the supplied deployment rehearsal on the Ubuntu host before production use.
 
 **Done when:** The application is reliable enough for a long-running production.
 
@@ -307,7 +310,8 @@ Use an actual anime production task as the milestone scenario:
 - Avoid hardcoded absolute paths in portable project data.
 - Validate every upload and media request on the server, constrain filesystem access, and never serve arbitrary paths.
 - Keep FrameForge account-free and single-user unless the product requirements explicitly change.
-- Build incrementally and keep the application runnable after each phase.
+  **- Build incrementally and keep the application runnable after each phase.
 - Do not introduce microservices, embedded AI, or collaboration infrastructure without a demonstrated need.
 
 **Instructions for VS Code Codex:** Treat this document as the authoritative implementation plan. Inspect the repository before each phase, implement the next incomplete checklist items, and avoid skipping dependencies. For each completed phase, report the changed files, migrations, tests executed, how to run the result, known limitations, and the next task. Make the simplest maintainable decision when details are unspecified and document that decision. Do not add ComfyUI API integration unless the product requirements explicitly change.
+**

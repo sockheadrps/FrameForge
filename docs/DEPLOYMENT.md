@@ -61,6 +61,14 @@ sudo journalctl -u frameforge -n 100 --no-pager
 
 `HOST=127.0.0.1` deliberately prevents direct LAN access to port 3000.
 
+The deployment environment approves `/mnt/data/comfy/output` as a read-only linked-media root. Ensure the `frameforge` service account can traverse and read that mount without granting it write access:
+
+```sh
+sudo -u frameforge find /mnt/data/comfy/output -maxdepth 2 -type d -print | head
+```
+
+FrameForge will preserve and navigate subfolders beneath that root. Additional approved roots can be added to `FRAMEFORGE_LINKED_MEDIA_ROOTS` with semicolons. Never approve `/`, `/mnt`, a home directory, or another broad filesystem location.
+
 ## 3. Optional private HTTPS access
 
 Choose a private hostname such as `frameforge.lan`. Point it to the Ubuntu host using private DNS or the Windows hosts file, and update both `/etc/frameforge/frameforge.env` and `deploy/caddy/Caddyfile` with the same hostname.
@@ -136,3 +144,23 @@ curl.exe --fail https://frameforge.lan/healthz
 Then open `https://frameforge.lan` in the browser, create a test project, restart the Ubuntu service, and confirm the project remains available.
 
 The deployment phase is complete only after the backup/restore rehearsal and Windows checks succeed on the actual host.
+
+## 7. Upgrades and migrations
+
+Every production build contains ordered Drizzle migrations. Back up the database and managed-media directory before changing versions, then install dependencies, build, and apply migrations while the service is stopped:
+
+```sh
+sudo systemctl stop frameforge
+sudo deploy/scripts/backup.sh /var/backups/frameforge
+npm ci
+npm run build
+npm run db:migrate
+sudo systemctl start frameforge
+curl --fail http://127.0.0.1:3000/healthz
+```
+
+Do not edit an existing migration after it has reached the Ubuntu host. Add a new migration instead. If an upgrade fails, keep the service stopped and restore the just-created archive before returning to the previous application revision.
+
+The Settings page reports SQLite integrity, record counts, approved linked roots, Node, FFmpeg, and FFprobe versions. Unexpected server errors are emitted as one-line JSON records and can be inspected with `journalctl -u frameforge`.
+
+Portable project packages are separate from host backups. They include project records and managed media, assign collision-safe IDs when imported, and warn about linked files that cannot be embedded. Use host backups for disaster recovery and packages for moving individual projects.

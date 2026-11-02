@@ -69,9 +69,23 @@
 				</form>
 			</details>
 		</header>
+		<div class="project-utility-links">
+			<a
+				class="project-search-link"
+				href={resolve('/projects/[slug]/search', { slug: data.project.slug })}
+				>Search this project →</a
+			><a href={resolve('/api/projects/[slug]/package', { slug: data.project.slug })}
+				>Export portable package ↓</a
+			>
+		</div>
 		<nav class="mode-tabs" aria-label="Project modes">
-			<a class="active" href="#story">Story</a><span>Canvas</span><span>Storyboard</span><span
-				>Review</span
+			<a class="active" href="#story">Story</a><a
+				href={resolve('/projects/[slug]/canvas', { slug: data.project.slug })}>Canvas</a
+			><a href={resolve('/projects/[slug]/storyboard', { slug: data.project.slug })}>Storyboard</a
+			><a href={resolve('/projects/[slug]/review', { slug: data.project.slug })}>Review</a><a
+				href={resolve('/projects/[slug]/takes', { slug: data.project.slug })}>Takes</a
+			><a href={resolve('/projects/[slug]/prompts', { slug: data.project.slug })}>Prompts</a><a
+				href={resolve('/projects/[slug]/continuity', { slug: data.project.slug })}>Continuity</a
 			>
 		</nav>
 		{#if form?.message}<p class="form-error" role="alert">{form.message}</p>{/if}
