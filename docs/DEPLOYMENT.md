@@ -81,6 +81,8 @@ sudo systemctl reload caddy
 
 The supplied Caddy configuration uses its internal certificate authority. Transfer Caddy's local root certificate to the Windows machine over a trusted channel and install it only in that machine's Trusted Root Certification Authorities store. Do not distribute that private root publicly.
 
+`ORIGIN` is embedded when `npm run build` runs. Source `/etc/frameforge/frameforge.env` before building, and rebuild whenever the public protocol, hostname, or port changes. For direct LAN access it must exactly match the browser address, for example `http://192.168.1.139:3000`; for Caddy it should be the final HTTPS address such as `https://frameforge.lan`.
+
 If HTTPS is unnecessary, use a private VPN or SSH port forwarding instead of exposing Node directly.
 
 ## 4. Firewall boundary
